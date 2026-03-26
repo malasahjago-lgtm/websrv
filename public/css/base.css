@@ -1,0 +1,194 @@
+/* ==========================================================================
+   BASE CSS — Reset + Variables + Typography
+   AtlasStresser UI System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Reset
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (Variables)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Backgrounds */
+  --bg-root:        #0a0a0a;   /* Page background — near black */
+  --bg-sidebar:     #111111;   /* Sidebar surface */
+  --bg-card:        #161616;   /* Card / panel surface */
+  --bg-input:       #1e1e1e;   /* Input field fill */
+  --bg-hover:       #1c1c1c;   /* Row / item hover */
+  --bg-active:      #202020;   /* Active nav item */
+  --bg-overlay:     rgba(0,0,0,0.6); /* Modal backdrop */
+
+  /* Borders */
+  --border-subtle:  #222222;   /* Dividers, card edges */
+  --border-mid:     #2e2e2e;   /* Input borders */
+  --border-focus:   #444444;   /* Input focus ring */
+
+  /* Text */
+  --text-primary:   #f0f0f0;   /* Main content */
+  --text-secondary: #888888;   /* Labels, metadata */
+  --text-muted:     #555555;   /* Placeholders, disabled */
+  --text-inverse:   #0a0a0a;   /* Text on bright backgrounds */
+
+  /* Accent — single brand color */
+  --accent:         #ffffff;   /* Primary CTA, active state */
+  --accent-dim:     rgba(255,255,255,0.08); /* Subtle accent fill */
+
+  /* Status colors */
+  --status-running: #3ecf8e;   /* Green — attack running */
+  --status-queued:  #f59e0b;   /* Amber — queued / cooldown */
+  --status-stopped: #ef4444;   /* Red — stopped / error */
+  --status-locked:  #6b7280;   /* Gray — key locked */
+
+  /* Network badges */
+  --badge-l4-bg:    #1e293b;
+  --badge-l4-text:  #60a5fa;
+  --badge-l7-bg:    #1e1a2e;
+  --badge-l7-text:  #a78bfa;
+
+  /* Fonts */
+  --font-sans:  'Geist', sans-serif;
+  --font-mono:  'Geist Mono', monospace;
+
+  /* Typography Scale */
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 13px;
+  --text-md:   14px;
+  --text-lg:   16px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+
+  /* Font Weight */
+  --fw-light:   300;
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+
+  /* Spacing Scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Typography
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600&display=swap');
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-root);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Monospace for keys, IDs, tokens, IP addresses */
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+}
+
+h1 { font-size: var(--text-2xl); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+h4 { font-size: var(--text-md); }
+h5 { font-size: var(--text-base); }
+h6 { font-size: var(--text-sm); }
+
+/* --------------------------------------------------------------------------
+   Scrollbar Styling
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-focus);
+}
+
+/* --------------------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   Utility Classes
+   -------------------------------------------------------------------------- */
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.text-primary { color: var(--text-primary); }

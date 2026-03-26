@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Token Modal - AtlasStresser</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <style>
+    /* Token Modal Specific Styles */
+    .token-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .token-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      width: 440px;
+      max-width: 90vw;
+      position: relative;
+      animation: modalIn 0.2s ease-out;
+    }
+
+    .token-modal-close {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .token-modal-close:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .token-modal-close svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .token-modal-title {
+      font-size: var(--text-lg);
+      font-weight: var(--fw-semibold);
+      color: var(--text-primary);
+      margin: 0 0 var(--space-2);
+    }
+
+    .token-modal-subtitle {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      margin: 0 0 var(--space-5);
+    }
+
+    .token-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--bg-input);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      margin-bottom: var(--space-5);
+    }
+
+    .token-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      color: var(--text-primary);
+      outline: none;
+      min-width: 0;
+    }
+
+    .token-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .token-copy-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: var(--bg-hover);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .token-copy-btn:hover {
+      background: var(--bg-active);
+      border-color: var(--border-focus);
+      color: var(--text-primary);
+    }
+
+    .token-copy-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .token-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 1px solid var(--border-mid);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--fw-medium);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .token-close-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-focus);
+    }
+
+    /* Loading Skeleton Animation */
+    .token-skeleton {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+
+    .token-skeleton-segment {
+      height: 20px;
+      background: linear-gradient(
+        90deg,
+        var(--border-subtle) 0%,
+        var(--border-mid) 50%,
+        var(--border-subtle) 100%
+      );
+      background-size: 200% 100%;
+      border-radius: 3px;
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+
+    .token-skeleton-segment.short {
+      width: 60px;
+    }
+
+    .token-skeleton-segment.long {
+      width: 80px;
+    }
+
+    .token-skeleton-dash {
+      width: 8px;
+      height: 20px;
+      background: var(--border-subtle);
+      border-radius: 3px;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Pulse animation for loading state */
+    .token-loading {
+      color: var(--text-muted);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    /* Copy feedback animation */
+    .token-copy-btn.copied {
+      background: rgba(62, 207, 142, 0.15);
+      border-color: rgba(62, 207, 142, 0.3);
+      color: var(--status-running);
+    }
+  </style>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-root);">
+  
+  <!-- Button to trigger modal -->
+  <button id="openTokenModal" class="btn btn-primary" style="width: auto; padding: 12px 24px;">
+    Generate Token
+  </button>
+
+  <!-- Token Modal -->
+  <div id="tokenModal" class="token-modal-backdrop" style="display: none;">
+    <div class="token-modal">
+      <!-- Close Button (Top Right) -->
+      <button class="token-modal-close" id="tokenModalCloseTop" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Title -->
+      <h2 class="token-modal-title">Building your token...</h2>
+      
+      <!-- Subtitle -->
+      <p class="token-modal-subtitle">Keep it in safe place. It will be used to log in your account.</p>
+
+      <!-- Token Input with Copy Button -->
+      <div class="token-input-wrapper">
+        <input 
+          type="text" 
+          class="token-input" 
+          id="tokenInput" 
+          readonly 
+          placeholder=""
+        >
+        <button class="token-copy-btn" id="tokenCopyBtn" aria-label="Copy token" title="Copy to clipboard">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Close Button (Bottom) -->
+      <button class="token-close-btn" id="tokenModalCloseBottom">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Generate UUID v4
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    // Show loading skeleton
+    function showLoading() {
+      const input = document.getElementById('tokenInput');
+      input.parentElement.innerHTML = `
+        <div class="token-skeleton" style="flex: 1;">
+          <div class="token-skeleton-segment long"></div>
+          <div class="token-skeleton-dash"></div>
+          <div class="token-skeleton-segment short"></div>
+          <div class="token-skeleton-dash"></div>
+          <div class="token-skeleton-segment short"></div>
+          <div class="token-skeleton-dash"></div>
+          <div class="token-skeleton-segment short"></div>
+          <div class="token-skeleton-dash"></div>
+          <div class="token-skeleton-segment long"></div>
+        </div>
+      `;
+    }
+
+    // Show token
+    function showToken(token) {
+      const wrapper = document.querySelector('.token-input-wrapper');
+      wrapper.innerHTML = `
+        <input 
+          type="text" 
+          class="token-input" 
+          id="tokenInput" 
+          readonly 
+          value="${token}"
+        >
+        <button class="token-copy-btn" id="tokenCopyBtn" aria-label="Copy token" title="Copy to clipboard">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+      `;
+      
+      // Rebind copy button
+      document.getElementById('tokenCopyBtn').addEventListener('click', copyToken);
+    }
+
+    // Copy token to clipboard
+    async function copyToken() {
+      const tokenInput = document.getElementById('tokenInput');
+      const copyBtn = document.getElementById('tokenCopyBtn');
+      
+      try {
+        await navigator.clipboard.writeText(tokenInput.value);
+        
+        // Show copied feedback
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        `;
+        
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          `;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    }
+
+    // Open modal and start token generation
+    function openModal() {
+      const modal = document.getElementById('tokenModal');
+      modal.style.display = 'flex';
+      
+      // Show loading state
+      showLoading();
+      
+      // Generate token after 1-2 seconds delay
+      const delay = Math.random() * 1000 + 1000; // 1000-2000ms
+      setTimeout(() => {
+        const token = generateUUID();
+        showToken(token);
+      }, delay);
+    }
+
+    // Close modal
+    function closeModal() {
+      const modal = document.getElementById('tokenModal');
+      modal.style.display = 'none';
+    }
+
+    // Event listeners
+    document.getElementById('openTokenModal').addEventListener('click', openModal);
+    document.getElementById('tokenModalCloseTop').addEventListener('click', closeModal);
+    document.getElementById('tokenModalCloseBottom').addEventListener('click', closeModal);
+
+    // Close on backdrop click
+    document.getElementById('tokenModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

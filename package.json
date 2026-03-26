@@ -1,0 +1,25 @@
+{
+  "name": "atlasstresser",
+  "version": "1.0.0",
+  "description": "Control panel for APIGATE Manager v2.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^17.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "hcaptcha": "^0.2.0",
+    "mongoose": "^9.3.2",
+    "node-fetch": "^2.7.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "tailwindcss": "^4.2.2"
+  }
+}

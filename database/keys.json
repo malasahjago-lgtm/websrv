@@ -1,0 +1,894 @@
+[
+  {
+    "key": "dd9eaee2caf94153",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-22T13:56:13.710Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "40b6ad6750d8a92f",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-22T13:56:18.613Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "2820bf11e163e440",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-22T14:34:58.198Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "a16d55a9a241bc1a",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-22T14:50:43.287Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "73de0d6d2c139815",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-22T15:05:02.549Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "5addcd4c5675a330",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T06:42:53.555Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "c5ba14e083428d7d",
+    "permission": [
+      "vip"
+    ],
+    "limits": {
+      "max_time": 120,
+      "concurrent": 2,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T06:42:55.799Z",
+    "last_used": "2026-03-23T06:49:14.977Z",
+    "status": "active"
+  },
+  {
+    "key": "706d5d3d9083630c",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:03:51.400Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0e22a7a2d7a088d0",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:14:51.271Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "60a76213b0f342b3",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:15:48.206Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "47a03bf1bcd85cde",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:19:24.213Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "3fff3b19ffcffe8e",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:07.780Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "705390e94bfab8c0",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:10.003Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "ee7d14aeb822025d",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:11.598Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "285769e99e20e868",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:12.700Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0d2e7904194c57f1",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:13.518Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "533bd017dd2b4d11",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:13.994Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "a4403fc086e6a680",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:14.405Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "553a2b2ea3d0f1b6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:14.686Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "fef23c0f40b26996",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:14.933Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "bc4cebada17e1982",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:15.455Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "9904184c6c473bc1",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:15.692Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "112bc894b0e2033b",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:15.944Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "1cbc818da89bc0e0",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:16.806Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "4c59815062dff063",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:16.808Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "8c950c3adcbc4660",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:16.810Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "592f3d2c09425c74",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:16.812Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "33a9eafff2aa8a61",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:16.825Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "c20cbfa59e72fdda",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:17.065Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "6fca668fe77942dc",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:17.479Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "90f894a5212a3bd6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:21:52.065Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "2c35a3c9d6585927",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:26:38.592Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "04476bf50fab8c97",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:26:43.338Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "03101806aa575ac8",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:26:48.885Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "3a54a249367deeb1",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:27:20.534Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "c966bea219145597",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T09:31:37.903Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "ae4e57c3061786de",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T10:26:50.742Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "d1d4389f45b13c18",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T10:31:32.560Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "9a6e7af905c6c0a9",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T10:33:27.454Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "bfc7c1d6f7aee83e",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T10:46:37.204Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "8bc0a6e1d94cd179",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T10:53:31.105Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "863585b012249ec5",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T11:44:22.670Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "8a7586caa2e316c2",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T11:51:40.010Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "711bf8cf2107fea5",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T11:57:26.176Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "2dde5a55db428352",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T11:57:34.465Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "59ed02f29fbe12d6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T11:59:52.601Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "b21b8f542355e6c4",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:00:29.861Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "b25f974d-2a56-412e-a0b7-208d5b70247f",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:00:55.616Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "e37c357c-f753-4a79-8aac-939075a98381",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:01:32.784Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "e9b3c37f-4ac7-4692-b683-4d3f6fb646d2",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:06:20.092Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "1bff9e20-d10f-4be4-a6fa-325b15a65a74",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:08:00.814Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0bfde2b1-6e5c-4872-805b-e214e25e9b3b",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:10:17.028Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "e86f433e-85b3-4540-91cd-cccf82e2b2c4",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:11:30.165Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "3a07962a-6cc0-4e23-be0e-8678494bc6f7",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:15:15.676Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "a1457e97-c1b6-4e71-a4ef-99af508a84e6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:17:21.556Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0a4697fb-485b-4b67-b319-936f513b463a",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:17:25.180Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "dfb08f79-1703-42be-afba-c3902f4cccaf",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:17:41.788Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "e1982e01-18c4-4e1a-a571-bdf72f422d53",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:29:09.615Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0b9d446e-c157-4f69-a4ba-9c2212099435",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:30:26.561Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "adc92a61-ccfd-40d9-b74e-b8950188333f",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:48:00.551Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "1874212f-6b32-4b7e-8a75-586efc74d68b",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:51:59.497Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "91c759b7-4f6c-4fe4-804b-8657b2141818",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T12:56:34.683Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0de76c31-d81d-408e-8e85-3b754ad7e72c",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T13:12:05.929Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "bcaff33c-8869-4814-abc0-fed591a6a472",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T13:40:19.212Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "eb991845-d1ca-490a-a50e-9dd995390b1b",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T13:52:19.986Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "6f54157c-c537-4bf5-8fbc-1d50f4d9f842",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-23T19:59:25.057Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "3e5539e2-3902-4a70-b387-2e92e3ffc5d6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T20:54:51.953Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "5160b63e-2360-41d5-99b8-3992ebcd26c6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:00:11.151Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "690ce535-79bf-459a-839e-bccc87e71e0d",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:07:45.061Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "bb7b38b2-d8ef-4fb5-9359-2e1904fd55bd",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:27:26.868Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "fc02dae8-4aa8-44eb-bdb1-715859895ed6",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:37:32.871Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "d2b03c3a-00c0-448f-9714-39aff48f0eb7",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:39:43.571Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "0ac77763-08d2-47a4-8f53-52033a1f3ccc",
+    "permission": [],
+    "limits": {
+      "max_time": 0,
+      "concurrent": 0,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-24T21:39:46.470Z",
+    "last_used": null,
+    "status": "locked"
+  },
+  {
+    "key": "5a56a8a4-50e1-4b06-aeb9-99690a3a1033",
+    "permission": [
+      "vip"
+    ],
+    "limits": {
+      "max_time": 120,
+      "concurrent": 1,
+      "cooldown": 0
+    },
+    "created_at": "2026-03-25T12:23:16.607Z",
+    "last_used": null,
+    "status": "active"
+  }
+]

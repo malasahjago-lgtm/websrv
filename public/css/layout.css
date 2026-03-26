@@ -1,0 +1,444 @@
+/* ==========================================================================
+   LAYOUT CSS — App Shell, Sidebar, Main Area
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   App Shell
+   -------------------------------------------------------------------------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-root);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar
+   -------------------------------------------------------------------------- */
+.sidebar {
+  width: 200px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.25s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 48px;
+}
+
+/* Logo */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar-logo svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.sidebar-logo span {
+  font-size: var(--text-md);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Navigation */
+.sidebar nav {
+  flex: 1;
+  padding: var(--space-3) 0;
+}
+
+.sidebar-section-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-1);
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-md);
+  transition: background 0.15s;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.sidebar-nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.sidebar-nav-item.active {
+  background: var(--bg-active);
+  color: var(--text-primary);
+}
+
+.sidebar-nav-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.sidebar-nav-item span {
+  font-size: var(--text-sm);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+/* User Footer */
+.sidebar-footer {
+  padding: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sidebar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.sidebar-user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-user-name {
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-user-balance {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.sidebar-user-menu {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebar-user-menu:hover {
+  background: var(--bg-hover);
+}
+
+.sidebar-user-menu svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Collapsed State
+   -------------------------------------------------------------------------- */
+/* Sembunyikan teks saat collapsed */
+.sidebar.collapsed .sidebar-section-label,
+.sidebar.collapsed .sidebar-nav-item span,
+.sidebar.collapsed .sidebar-logo span,
+.sidebar.collapsed .sidebar-user-info {
+  display: none;
+}
+
+/* Center icon saat collapsed */
+.sidebar.collapsed .sidebar-nav-item {
+  justify-content: center;
+  padding: var(--space-2) var(--space-1);
+}
+
+.sidebar.collapsed .sidebar-logo {
+  justify-content: center;
+  padding: var(--space-5) var(--space-1);
+}
+
+.sidebar.collapsed .sidebar-user {
+  justify-content: center;
+}
+
+.sidebar.collapsed .sidebar-user-menu {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Toggle Button
+   -------------------------------------------------------------------------- */
+.sidebar-toggle {
+  position: absolute;
+  top: 14px;
+  left: 184px;
+  width: 20px;
+  height: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  transition:
+    left 0.25s ease,
+    color 0.1s;
+  color: var(--text-muted);
+}
+
+.sidebar-toggle:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.sidebar-toggle svg {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.25s ease;
+}
+
+.sidebar.collapsed ~ .sidebar-toggle,
+.sidebar-toggle.collapsed {
+  left: 36px;
+}
+
+.sidebar-toggle.collapsed svg {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   Main Area
+   -------------------------------------------------------------------------- */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Topbar
+   -------------------------------------------------------------------------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-sidebar);
+  gap: var(--space-3);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.breadcrumb-item {
+  color: var(--text-muted);
+}
+
+.breadcrumb-item.current {
+  color: var(--text-primary);
+}
+
+.breadcrumb-separator {
+  color: var(--border-subtle);
+}
+
+/* Hide mobile menu button on desktop */
+.mobile-menu-btn {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Page Content
+   -------------------------------------------------------------------------- */
+.page-content {
+  flex: 1;
+  padding: var(--space-6);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive - Mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .app-shell {
+    position: relative;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    z-index: 1000;
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: none;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-logo {
+    justify-content: flex-start;
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .sidebar-logo span {
+    display: block;
+  }
+
+  .sidebar nav {
+    display: block;
+    padding: var(--space-3) 0;
+  }
+
+  .sidebar-section-label {
+    display: block;
+  }
+
+  .sidebar-nav-item {
+    display: flex;
+  }
+
+  .sidebar-nav-item span {
+    display: block;
+  }
+
+  .sidebar-footer {
+    display: block;
+    padding: var(--space-3);
+  }
+
+  .sidebar-user {
+    display: flex;
+  }
+
+  .sidebar-user-info {
+    display: block;
+  }
+
+  .sidebar-user-menu {
+    display: flex;
+  }
+
+  /* Sidebar Overlay / Backdrop */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Mobile Menu Toggle Button (Hamburger) */
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .mobile-menu-btn:active {
+    background: var(--bg-hover);
+  }
+
+  .mobile-menu-btn svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-primary);
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .topbar {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .breadcrumb {
+    justify-content: center;
+  }
+
+  .page-content {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding: var(--space-3);
+  }
+}

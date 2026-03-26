@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer Configuration - Modern UI</title>
+  <style>
+    /* ==========================================================================
+       Modern Timer Configuration UI
+       Dark Theme with Polished Spinners
+       ========================================================================== */
+
+    :root {
+      /* Colors */
+      --bg-root: #0f0f1a;
+      --bg-card: #1a1a2e;
+      --bg-hover: #252542;
+      --bg-input: #141428;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-mid: rgba(255, 255, 255, 0.12);
+      
+      --text-primary: #f0f0f5;
+      --text-secondary: #8888aa;
+      --text-muted: #555577;
+      
+      /* Accent Colors */
+      --accent-blue: #4fc3f7;
+      --accent-blue-glow: rgba(79, 195, 247, 0.3);
+      --accent-green: #81c784;
+      --accent-green-glow: rgba(129, 199, 132, 0.3);
+      --accent-orange: #ff8a65;
+      --accent-orange-glow: rgba(255, 138, 101, 0.3);
+      
+      /* Spacing */
+      --row-padding: 14px;
+      --col-gap: 14px;
+      --border-radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* Main Container */
+    .timer-config-container {
+      width: 100%;
+      max-width: 720px;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      padding: 28px;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    }
+
+    /* Section Header */
+    .config-header {
+      margin-bottom: 24px;
+    }
+
+    .config-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .config-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Column Headers */
+    .column-headers {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr 1fr;
+      gap: var(--col-gap);
+      padding: 0 8px 12px;
+      margin-bottom: 8px;
+    }
+
+    .column-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .column-header-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .column-header.max-time .column-header-label {
+      color: var(--accent-blue);
+    }
+
+    .column-header.slot .column-header-label {
+      color: var(--accent-green);
+    }
+
+    .column-header.cooldown .column-header-label {
+      color: var(--accent-orange);
+    }
+
+    .column-header-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .column-header.max-time .column-header-icon {
+      background: var(--accent-blue-glow);
+      color: var(--accent-blue);
+    }
+
+    .column-header.slot .column-header-icon {
+      background: var(--accent-green-glow);
+      color: var(--accent-green);
+    }
+
+    .column-header.cooldown .column-header-icon {
+      background: var(--accent-orange-glow);
+      color: var(--accent-orange);
+    }
+
+    /* Rows Container */
+    .config-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Individual Row */
+    .config-row {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr 1fr;
+      gap: var(--col-gap);
+      padding: var(--row-padding);
+      background: var(--bg-input);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .config-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--border-mid), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .config-row:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-mid);
+      transform: translateX(2px);
+    }
+
+    .config-row:hover::before {
+      opacity: 1;
+    }
+
+    /* Row Number */
+    .row-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      height: 100%;
+      min-height: 48px;
+      transition: all 0.2s;
+    }
+
+    .config-row:hover .row-number {
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Spinner Component */
+    .spinner-wrapper {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.2s;
+      height: 48px;
+    }
+
+    .config-row:hover .spinner-wrapper {
+      border-color: var(--border-mid);
+    }
+
+    .spinner-wrapper.max-time { border-left: 3px solid var(--accent-blue); }
+    .spinner-wrapper.slot { border-left: 3px solid var(--accent-green); }
+    .spinner-wrapper.cooldown { border-left: 3px solid var(--accent-orange); }
+
+    .spinner-wrapper:focus-within {
+      border-color: var(--border-mid);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+    }
+
+    /* Value Display */
+    .spinner-value {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      letter-spacing: -0.02em;
+    }
+
+    .spinner-value.max-time { color: var(--accent-blue); }
+    .spinner-value.slot { color: var(--accent-green); }
+    .spinner-value.cooldown { color: var(--accent-orange); }
+
+    /* Button Container */
+    .spinner-buttons {
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border-subtle);
+    }
+
+    /* Spinner Buttons */
+    .spinner-btn {
+      width: 36px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .spinner-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+    }
+
+    .spinner-btn:active {
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(0.95);
+    }
+
+    .spinner-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .spinner-btn:first-child {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* Unit Label */
+    .unit-label {
+      position: absolute;
+      right: 10px;
+      bottom: 6px;
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      pointer-events: none;
+    }
+
+    .unit-label.max-time { color: var(--accent-blue); }
+    .unit-label.slot { color: var(--accent-green); }
+    .unit-label.cooldown { color: var(--accent-orange); }
+
+    /* Save Button */
+    .save-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    }
+
+    .save-btn:active {
+      transform: translateY(0);
+    }
+
+    .save-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Animation for value change */
+    @keyframes valuePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .spinner-value.changed {
+      animation: valuePulse 0.2s ease;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .timer-config-container {
+        padding: 20px 16px;
+      }
+
+      .column-headers,
+      .config-row {
+        grid-template-columns: 40px 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .spinner-value {
+        font-size: 14px;
+        padding: 0 10px;
+      }
+
+      .spinner-btn {
+        width: 30px;
+        height: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-config-container">
+    <!-- Header -->
+    <div class="config-header">
+      <h2 class="config-title">⚙️ Timer Configuration</h2>
+      <p class="config-subtitle">Configure limits for each user tier (5 rows)</p>
+    </div>
+
+    <!-- Column Headers -->
+    <div class="column-headers">
+      <div class="column-header">
+        <span class="column-header-label">Row</span>
+      </div>
+      <div class="column-header max-time">
+        <div class="column-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <span class="column-header-label">Max Time</span>
+      </div>
+      <div class="column-header slot">
+        <div class="column-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <span class="column-header-label">Slot</span>
+      </div>
+      <div class="column-header cooldown">
+        <div class="column-header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6"/>
+            <path d="M12 18h.01"/>
+          </svg>
+        </div>
+        <span class="column-header-label">Cooldown</span>
+      </div>
+    </div>
+
+    <!-- Config Rows -->
+    <div class="config-rows" id="configRows">
+      <!-- Row 1 -->
+      <div class="config-row" data-row="1">
+        <div class="row-number">#1</div>
+        
+        <div class="spinner-wrapper max-time">
+          <span class="spinner-value max-time" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label max-time">sec</span>
+        </div>
+
+        <div class="spinner-wrapper slot">
+          <span class="spinner-value slot" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label slot">attacks</span>
+        </div>
+
+        <div class="spinner-wrapper cooldown">
+          <span class="spinner-value cooldown" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label cooldown">sec</span>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="config-row" data-row="2">
+        <div class="row-number">#2</div>
+        
+        <div class="spinner-wrapper max-time">
+          <span class="spinner-value max-time" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label max-time">sec</span>
+        </div>
+
+        <div class="spinner-wrapper slot">
+          <span class="spinner-value slot" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label slot">attacks</span>
+        </div>
+
+        <div class="spinner-wrapper cooldown">
+          <span class="spinner-value cooldown" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label cooldown">sec</span>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="config-row" data-row="3">
+        <div class="row-number">#3</div>
+        
+        <div class="spinner-wrapper max-time">
+          <span class="spinner-value max-time" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label max-time">sec</span>
+        </div>
+
+        <div class="spinner-wrapper slot">
+          <span class="spinner-value slot" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label slot">attacks</span>
+        </div>
+
+        <div class="spinner-wrapper cooldown">
+          <span class="spinner-value cooldown" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label cooldown">sec</span>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="config-row" data-row="4">
+        <div class="row-number">#4</div>
+        
+        <div class="spinner-wrapper max-time">
+          <span class="spinner-value max-time" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label max-time">sec</span>
+        </div>
+
+        <div class="spinner-wrapper slot">
+          <span class="spinner-value slot" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label slot">attacks</span>
+        </div>
+
+        <div class="spinner-wrapper cooldown">
+          <span class="spinner-value cooldown" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label cooldown">sec</span>
+        </div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="config-row" data-row="5">
+        <div class="row-number">#5</div>
+        
+        <div class="spinner-wrapper max-time">
+          <span class="spinner-value max-time" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label max-time">sec</span>
+        </div>
+
+        <div class="spinner-wrapper slot">
+          <span class="spinner-value slot" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label slot">attacks</span>
+        </div>
+
+        <div class="spinner-wrapper cooldown">
+          <span class="spinner-value cooldown" data-value="0">0</span>
+          <div class="spinner-buttons">
+            <button class="spinner-btn btn-up" onclick="updateValue(this, 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+            </button>
+            <button class="spinner-btn btn-down" onclick="updateValue(this, -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          <span class="unit-label cooldown">sec</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="save-section">
+      <button class="save-btn" onclick="saveConfiguration()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+          <path d="M17 21v-8H7v8"/>
+          <path d="M7 3v5h8"/>
+        </svg>
+        Save Configuration
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Configuration data
+    const configData = {
+      rows: [
+        { maxTime: 0, slot: 0, cooldown: 0 },
+        { maxTime: 0, slot: 0, cooldown: 0 },
+        { maxTime: 0, slot: 0, cooldown: 0 },
+        { maxTime: 0, slot: 0, cooldown: 0 },
+        { maxTime: 0, slot: 0, cooldown: 0 }
+      ]
+    };
+
+    // Update value function
+    function updateValue(button, delta) {
+      const spinnerWrapper = button.closest('.spinner-wrapper');
+      const valueDisplay = spinnerWrapper.querySelector('.spinner-value');
+      let currentValue = parseInt(valueDisplay.dataset.value);
+      
+      // Update value
+      currentValue = Math.max(0, currentValue + delta);
+      valueDisplay.dataset.value = currentValue;
+      valueDisplay.textContent = currentValue;
+      
+      // Add animation class
+      valueDisplay.classList.add('changed');
+      setTimeout(() => {
+        valueDisplay.classList.remove('changed');
+      }, 200);
+
+      // Update config data
+      const row = button.closest('.config-row');
+      const rowIndex = parseInt(row.dataset.row) - 1;
+      
+      if (spinnerWrapper.classList.contains('max-time')) {
+        configData.rows[rowIndex].maxTime = currentValue;
+      } else if (spinnerWrapper.classList.contains('slot')) {
+        configData.rows[rowIndex].slot = currentValue;
+      } else if (spinnerWrapper.classList.contains('cooldown')) {
+        configData.rows[rowIndex].cooldown = currentValue;
+      }
+
+      console.log('Updated config:', configData);
+    }
+
+    // Save configuration
+    function saveConfiguration() {
+      console.log('Saving configuration...');
+      console.log('Final data:', configData);
+      
+      // Visual feedback
+      const saveBtn = document.querySelector('.save-btn');
+      const originalText = saveBtn.innerHTML;
+      saveBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+        Saved!
+      `;
+      saveBtn.style.background = 'linear-gradient(135deg, #81c784 0%, #4caf50 100%)';
+      
+      setTimeout(() => {
+        saveBtn.innerHTML = originalText;
+        saveBtn.style.background = '';
+      }, 2000);
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      const focusedElement = document.activeElement;
+      if (focusedElement.classList.contains('spinner-btn')) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          focusedElement.click();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

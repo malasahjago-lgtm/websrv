@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goliath Services - Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000000;
+      color: #fafafa;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      display: flex;
+      height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─── */
+    .app-layout {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      background-color: #000000;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s, opacity 0.3s, padding 0.3s;
+      overflow: hidden;
+    }
+
+    .sidebar.sidebar-hidden {
+      width: 0 !important;
+      opacity: 0;
+    }
+
+    .brand {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .brand svg {
+      width: 20px;
+      height: 20px;
+      color: #fafafa;
+    }
+
+    .nav-sections {
+      flex: 1;
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #52525b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 16px 12px 8px;
+    }
+
+    .nav-label:first-child {
+      margin-top: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #a1a1aa;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-item svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .nav-item:hover {
+      color: #fafafa;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-item.active {
+      color: #fafafa;
+    }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+      padding: 16px 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .profile-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .profile-card:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background-color: #27272a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      color: #fafafa;
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .profile-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fafafa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .profile-balance {
+      font-size: 11px;
+      color: #a1a1aa;
+    }
+
+    .profile-card svg {
+      color: #71717a;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ─── Profile Dropdown (Popup) ─── */
+    .sidebar-footer {
+      padding: 16px 12px;
+      position: relative;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 80px; /* Positioned above the profile card */
+      background-color: #0c0c0e;
+      border: 1px solid #1f1f22;
+      border-radius: 12px;
+      padding: 4px;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .profile-dropdown.show {
+      display: flex;
+      animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes dropdownPop {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 10px;
+    }
+
+    .dropdown-header .avatar {
+      width: 40px;
+      height: 40px;
+      background-color: #141417;
+      border: 1px solid #27272a;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background-color: #1f1f22;
+      margin: 4px 0;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      color: #fafafa;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .dropdown-item svg {
+      width: 16px;
+      height: 16px;
+      color: #71717a;
+    }
+
+    .dropdown-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item:active {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ─── Main Content (The Cylinder/Card) ─── */
+    .main-window {
+      flex: 1;
+      padding: 16px 16px 16px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-area {
+      flex: 1;
+      background-color: #0c0c0e;
+      border: 1px solid #27272a;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .topbar {
+      height: 64px;
+      border-bottom: 1px solid #1f1f22;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .topbar-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a1a1aa;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .topbar-icon:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #fafafa;
+    }
+
+    .topbar-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .topbar-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fafafa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-title .chevron {
+      color: #52525b;
+      margin: 0 4px;
+    }
+
+    .topbar-title .muted {
+      color: #a1a1aa;
+    }
+
+    /* Content wrapper */
+    .content-wrap {
+      padding: 32px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* ─── Panel Layout ─── */
+    .panel-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 1.8fr;
+      gap: 24px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .card-dark {
+      background-color: #141417;
+      border: 1px solid #1f1f22;
+      border-radius: 12px;
+      padding: 24px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: #a1a1aa;
+    }
+
+    .network-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .network-label {
+      font-size: 12px;
+      color: #71717a;
+      margin-right: 4px;
+    }
+
+    .net-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background-color: transparent;
+      border: 1px solid #27272a;
+      color: #a1a1aa;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .net-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .net-btn.active,
+    .net-btn:hover {
+      background-color: #fafafa;
+      color: #09090b;
+    }
+
+    /* ─── Forms ─── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fafafa;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      background-color: #0c0c0e;
+      border: 1px solid #27272a;
+      color: #fafafa;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    .form-input::placeholder {
+      color: #52525b;
+    }
+
+    .form-input:focus {
+      border-color: #52525b;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+    /* Custom Select Styling */
+    .custom-select-wrapper {
+      position: relative;
+    }
+
+    .custom-select-trigger {
+      width: 100%;
+      background-color: #0c0c0e;
+      border: 1px solid #27272a;
+      color: #52525b;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.2s;
+    }
+
+    .custom-select-trigger.has-value {
+      color: #fafafa;
+    }
+
+    .custom-select-trigger:hover,
+    .custom-select.open .custom-select-trigger {
+      border-color: #52525b;
+    }
+
+    .custom-select-trigger svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s;
+      color: #52525b;
+    }
+
+    .custom-select.open .custom-select-trigger svg {
+      transform: rotate(180deg);
+    }
+
+    .custom-select-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: 100%;
+      min-width: 100%;
+      background-color: #1a1a1e;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      display: none;
+      flex-direction: column;
+      max-height: 260px;
+      overflow: hidden;
+    }
+
+    .custom-select.open .custom-select-dropdown {
+      display: flex;
+    }
+
+    .custom-select-header {
+      padding: 10px 12px 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #a1a1aa;
+      border-bottom: 1px solid #27272a;
+    }
+
+    .custom-select-list {
+      overflow-y: auto;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .custom-option {
+      padding: 9px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fafafa;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.1s;
+    }
+
+    .custom-option:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .custom-option .opt-layer {
+      font-weight: 400;
+      font-size: 12px;
+      color: #71717a;
+    }
+
+    /* Slider styling */
+    .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .form-range {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      background: #27272a;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .form-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #000000;
+      border: 3px solid #fafafa;
+      cursor: pointer;
+    }
+
+    .slider-value {
+      font-size: 12px;
+      color: #a1a1aa;
+      font-weight: 500;
+      min-width: 24px;
+      text-align: right;
+    }
+
+    /* Buttons */
+    .btn-submit {
+      width: 100%;
+      background-color: #fafafa;
+      color: #09090b;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background-color: #e4e4e7;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      width: 100%;
+      background-color: transparent;
+      color: #fafafa;
+      border: 1px solid #27272a;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .btn-outline svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ─── Right Attack Table ─── */
+    .toolbar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .table-search {
+      width: 240px;
+      max-width: 100%;
+      background-color: #0c0c0e;
+      border: 1px solid #27272a;
+      color: #fafafa;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .table-search::placeholder {
+      color: #52525b;
+    }
+
+    .btn-stop-all {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #fafafa;
+      color: #09090b;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-stop-all svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn-stop-all:hover {
+      background-color: #e4e4e7;
+    }
+
+    /* The Table itself */
+    .data-table-wrapper {
+      border: 1px solid #1f1f22;
+      border-radius: 8px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 16px;
+      font-size: 12px;
+    }
+
+    .data-table th {
+      color: #a1a1aa;
+      font-weight: 500;
+      border-bottom: 1px solid #1f1f22;
+      background-color: transparent;
+    }
+
+    .data-table td {
+      color: #fafafa;
+      border-bottom: 1px solid #1f1f22;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .th-sort {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .th-sort svg {
+      width: 12px;
+      height: 12px;
+      color: #52525b;
+    }
+
+    .table-empty {
+      text-align: center !important;
+      padding: 64px 16px !important;
+      color: #71717a !important;
+    }
+
+    .status-running {
+      color: #22c55e;
+    }
+
+    .status-stopped {
+      color: #71717a;
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #71717a;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 4px;
+    }
+
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background-color: transparent;
+      border: 1px solid #27272a;
+      color: #71717a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .page-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #fafafa;
+    }
+
+    .page-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* Toast Notification */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .toast {
+      background-color: #141417;
+      border: 1px solid #27272a;
+      color: #fafafa;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      animation: toastSlideIn 0.3s ease-out forwards;
+      opacity: 0;
+      transform: translateX(100%);
+    }
+
+    .toast.hide {
+      animation: toastSlideOut 0.3s ease-in forwards;
+    }
+
+    @keyframes toastSlideIn {
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes toastSlideOut {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    /* ─── Mobile Responsiveness ─── */
+    @media (max-width: 768px) {
+
+      /* Layout */
+      .app-layout {
+        position: relative;
+        overflow-x: hidden;
+        width: 100%;
+      }
+
+      .main-window {
+        padding: 0;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .main-area {
+        border-radius: 0;
+        border: none;
+        min-width: 0;
+        width: 100%;
+        overflow: visible;
+      }
+
+      .content-wrap {
+        padding: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+      }
+
+      /* Panel stack vertically */
+      .panel-split {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .card-dark {
+        padding: 16px;
+        border-radius: 8px;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Card header stays in one row, badges wrap if needed */
+      .card-header {
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      /* Network badge row */
+      .network-badge-group {
+        flex-wrap: wrap;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      /* Forms */
+      .form-row {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 14px;
+      }
+
+      /* Toolbar */
+      .toolbar-row {
+        flex-direction: row;
+        gap: 8px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .table-search {
+        flex: 1;
+        min-width: 0;
+        width: auto;
+      }
+
+      .btn-stop-all {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+
+      /* Table scrolls horizontally inside wrapper */
+      .data-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 100%;
+        display: block;
+      }
+
+      .data-table {
+        min-width: 480px;
+        width: max-content;
+        table-layout: auto;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 10px 10px;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      /* Table footer */
+      .table-footer {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      /* Toast */
+      #toast-container {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+
+      .toast {
+        font-size: 12px;
+      }
+
+      /* Topbar */
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .topbar-title {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Sidebar Overlay */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        width: 80vw !important;
+        max-width: 320px;
+        transform: translateX(0);
+        opacity: 1 !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.8);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar.sidebar-hidden {
+        transform: translateX(-100%);
+        width: 80vw !important;
+        pointer-events: none;
+      }
+
+      /* Blur backdrop overlay */
+      .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        opacity: 0;
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar-backdrop.active {
+        display: block;
+        opacity: 1;
+      }
+    }
+
+    /* Extra small devices (< 480px) */
+    @media (max-width: 480px) {
+      .content-wrap {
+        padding: 10px;
+      }
+
+      .card-dark {
+        padding: 14px;
+      }
+
+      .card-title {
+        font-size: 14px;
+      }
+
+      .card-subtitle {
+        font-size: 12px;
+      }
+
+      .form-label {
+        font-size: 12px;
+      }
+
+      .form-input,
+      .form-select,
+      .custom-select-trigger {
+        font-size: 12px;
+        padding: 9px 10px;
+      }
+
+      .btn-submit,
+      .btn-outline {
+        font-size: 12px;
+        padding: 9px;
+      }
+
+      .topbar-title {
+        font-size: 12px;
+      }
+
+      .table-search {
+        font-size: 12px;
+        padding: 7px 10px;
+      }
+
+      .btn-stop-all {
+        font-size: 11px;
+        padding: 7px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-layout">
+    <div id="toast-container"></div>
+
+    <!-- Mobile sidebar backdrop overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        <span class="brand-text">Goliath Services</span>
+      </div>
+
+      <div class="nav-sections">
+        <div class="nav-label">Main</div>
+        <a href="/hub/dashboard" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="9"></rect>
+            <rect x="14" y="3" width="7" height="5"></rect>
+            <rect x="14" y="12" width="7" height="9"></rect>
+            <rect x="3" y="16" width="7" height="5"></rect>
+          </svg>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="/hub/panel" class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+          <span class="nav-text">Attacks</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span class="nav-text">Documentation</span>
+        </a>
+
+        <div class="nav-label">Billing</div>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+          </svg>
+          <span class="nav-text">Plans</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          <span class="nav-text">Deposit</span>
+        </a>
+
+        <div class="nav-label">Services</div>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+          </svg>
+          <span class="nav-text">Holder Service</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="footer-links">
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span class="nav-text">Telegram</span>
+          </a>
+          <a href="#" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span class="nav-text">Terms</span>
+          </a>
+        </div>
+
+        <div class="profile-card" id="profileBtn">
+          <div class="avatar" id="avatarChar">U</div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileName">User #-----</div>
+            <div class="profile-balance">Balance: 0 $</div>
+          </div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="12" cy="5" r="1"></circle>
+            <circle cx="12" cy="19" r="1"></circle>
+          </svg>
+        </div>
+
+        <!-- Dropdown Menu -->
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="dropdown-header">
+            <div class="avatar" id="ddAvatarChar">U</div>
+            <div class="profile-info">
+              <div class="profile-name" id="ddProfileName">User #-----</div>
+              <div class="profile-balance" id="ddProfilePlan">Free</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Profile
+          </a>
+          <a href="#" class="dropdown-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+            </svg>
+            Deposit
+          </a>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" onclick="logout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Log out
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Cylinder Main Window -->
+    <div class="main-window">
+      <main class="main-area">
+
+        <header class="topbar">
+          <button class="topbar-icon" id="toggleSidebar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+          </button>
+          <div class="topbar-title">
+            <span class="muted">Dashboard</span>
+            <span class="chevron">›</span>
+            Panel
+          </div>
+        </header>
+
+        <div class="content-wrap">
+
+          <div class="panel-split">
+
+            <!-- Left Card: Panel -->
+            <div class="card-dark">
+              <div class="card-header" style="align-items: center;">
+                <div>
+                  <h2 class="card-title">Panel</h2>
+                  <p class="card-subtitle">Launch new attack in one click.</p>
+                </div>
+                <div class="network-badge-group">
+                  <span class="network-label">Network</span>
+                  <button type="button" class="net-btn active" id="btnL4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                      <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                      <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                    L4
+                  </button>
+                  <button type="button" class="net-btn" id="btnL7">
+                    <svg viewBox="0 0 24 24" fill="none" class="text-xs" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                      </path>
+                      <path d="M2 12h20"></path>
+                    </svg>
+                    L7
+                  </button>
+                </div>
+              </div>
+
+              <form id="attackForm">
+                <div class="form-row form-group">
+                  <div style="flex: 2;">
+                    <label class="form-label">Target</label>
+                    <input type="text" class="form-input" id="target" placeholder="1.1.1.1" required>
+                  </div>
+                  <div style="flex: 1;">
+                    <label class="form-label">Port</label>
+                    <input type="number" class="form-input" id="port" placeholder="443" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Duration</label>
+                  <input type="number" class="form-input" id="time" placeholder="1200" required>
+                </div>
+
+                <div class="form-group custom-select-wrapper">
+                  <label class="form-label">Method</label>
+                  <div class="custom-select" id="customMethodSelect">
+                    <div class="custom-select-trigger">
+                      <span id="selectedMethodText">Select a method</span>
+                      <svg viewBox="0 0 24 24" fill="none" class="text-xs" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                    <div class="custom-select-dropdown" id="customMethodDropdown">
+                      <div class="custom-select-header">Available Methods</div>
+                      <div class="custom-select-list" id="customMethodList">
+                        <!-- Options injected by JS -->
+                      </div>
+                    </div>
+                  </div>
+                  <input type="hidden" id="method" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Concurrents</label>
+                  <div class="slider-wrap">
+                    <input type="range" class="form-range" id="concurrent" min="1" max="1" value="1">
+                    <span class="slider-value" id="lblConcurrent">1/1</span>
+                  </div>
+                </div>
+
+                <button type="button" class="btn-outline">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  Schedule attack
+                </button>
+                <button type="submit" class="btn-submit" id="btnStart">Start</button>
+              </form>
+            </div>
+
+            <!-- Right Card: Your Attacks -->
+            <div class="card-dark">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Your Attacks</h2>
+                  <p class="card-subtitle">Manage your attacks in one click.</p>
+                </div>
+              </div>
+
+              <div class="toolbar-row">
+                <input type="text" class="table-search" id="inputSearch" placeholder="Filter target...">
+                <button class="btn-stop-all" onclick="stopAll()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                  Stop All
+                </button>
+              </div>
+
+              <div class="data-table-wrapper">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div class="th-sort">ID <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M12 5v14M19 12l-7 7-7-7" />
+                          </svg></div>
+                      </th>
+                      <th>
+                        <div class="th-sort">Target <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
+                          </svg></div>
+                      </th>
+                      <th>
+                        <div class="th-sort">Port <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
+                          </svg></div>
+                      </th>
+                      <th>
+                        <div class="th-sort">Method <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
+                          </svg></div>
+                      </th>
+                      <th>
+                        <div class="th-sort">Expire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
+                          </svg></div>
+                      </th>
+                      <th>
+                        <div class="th-sort">Status <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" style="width:14px; height:14px;">
+                            <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
+                          </svg></div>
+                      </th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody">
+                    <tr>
+                      <td colspan="7" class="table-empty">Loading...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="table-footer">
+                <span>Current page 1 of 0</span>
+                <div class="pagination">
+                  <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="11 17 6 12 11 7"></polyline>
+                      <polyline points="18 17 13 12 18 7"></polyline>
+                    </svg></button>
+                  <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg></button>
+                  <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg></button>
+                  <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="13 17 18 12 13 7"></polyline>
+                      <polyline points="6 17 11 12 6 7"></polyline>
+                    </svg></button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let userData = null;
+    let isLocked = false;
+    let currentNetworkFilter = 'L4';
+    let availableMethodsData = [];
+
+    // Dropdown global setup
+    const customSelect = document.getElementById('customMethodSelect');
+    const triggerDiv = document.querySelector('.custom-select-trigger');
+    const hiddenInput = document.getElementById('method');
+    const triggerText = document.getElementById('selectedMethodText');
+
+    triggerDiv.addEventListener('click', (e) => {
+      e.stopPropagation();
+      customSelect.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!customSelect.contains(e.target)) {
+        customSelect.classList.remove('open');
+      }
+    });
+
+    // L4 / L7 Filter logic
+    document.getElementById('btnL4').addEventListener('click', () => {
+      document.getElementById('btnL4').classList.add('active');
+      document.getElementById('btnL7').classList.remove('active');
+      currentNetworkFilter = 'L4';
+      renderMethodsOptions();
+    });
+
+    document.getElementById('btnL7').addEventListener('click', () => {
+      document.getElementById('btnL7').classList.add('active');
+      document.getElementById('btnL4').classList.remove('active');
+      currentNetworkFilter = 'L7';
+      renderMethodsOptions();
+    });
+
+    function renderMethodsOptions() {
+      const list = document.getElementById('customMethodList');
+      list.innerHTML = '';
+
+      const filtered = availableMethodsData.filter(m => m.layerTag === currentNetworkFilter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div style="padding: 10px; color: #71717a; font-size:12px; text-align:center;">No methods for this layer.</div>';
+      }
+
+      hiddenInput.value = '';
+      triggerText.textContent = 'Select a method';
+      triggerDiv.classList.remove('has-value');
+
+      filtered.forEach(m => {
+        const opt = document.createElement('div');
+        opt.className = 'custom-option';
+        opt.innerHTML = `<span>${m.name.toUpperCase()}</span><span class="opt-layer">${m.displayedTag}</span>`;
+        opt.dataset.value = m.name;
+
+        opt.addEventListener('click', () => {
+          hiddenInput.value = m.name;
+          triggerText.textContent = m.name.toUpperCase();
+          triggerDiv.classList.add('has-value');
+          customSelect.classList.remove('open');
+        });
+        list.appendChild(opt);
+      });
+    }
+
+    // Toast Notification logic
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icon = type === 'success' 
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="width:18px; height:18px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2" style="width:18px; height:18px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+
+      toast.innerHTML = `
+        ${icon}
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Expand/Collapse Sidebar visual mechanics
+    const sidebar = document.getElementById('sidebar') || document.querySelector('.sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+
+    function openSidebar() {
+      sidebar.classList.remove('sidebar-hidden');
+      if (window.innerWidth <= 768 && backdrop) {
+        backdrop.classList.add('active');
+      }
+    }
+
+    function closeSidebar() {
+      sidebar.classList.add('sidebar-hidden');
+      if (backdrop) backdrop.classList.remove('active');
+    }
+
+    if (window.innerWidth <= 768) {
+      sidebar.classList.add('sidebar-hidden');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('sidebar-hidden')) {
+        openSidebar();
+      } else {
+        closeSidebar();
+      }
+    });
+
+    // Tap backdrop to close sidebar
+    if (backdrop) {
+      backdrop.addEventListener('click', closeSidebar);
+    }
+
+    // Data Loaders
+    async function loadData() {
+      try {
+        const res = await fetch('/api/user-info');
+        const data = await res.json();
+
+        if (data.success) {
+          userData = data;
+          isLocked = data.status === 'locked' || data.limits.max_time === 0;
+
+          // Profile Setup
+          const shortKey = data.key.length > 8 ? data.key.substring(0, 8) : data.key;
+          document.getElementById('profileName').textContent = 'User #' + shortKey;
+          document.getElementById('avatarChar').textContent = data.key.charAt(0).toUpperCase();
+
+          if (document.getElementById('ddProfileName')) {
+            document.getElementById('ddProfileName').textContent = 'User #' + shortKey;
+            document.getElementById('ddAvatarChar').textContent = data.key.charAt(0).toUpperCase();
+            document.getElementById('ddProfilePlan').textContent = data.limits.max_time > 0 ? 'Premium' : 'Free';
+          }
+
+          // Form Limits
+          document.getElementById('time').max = data.limits.max_time || 0;
+          const maxConcur = data.limits.concurrent || 1;
+          const elConc = document.getElementById('concurrent');
+          elConc.max = maxConcur;
+          document.getElementById('lblConcurrent').textContent = `1 / ${maxConcur}`;
+
+          elConc.addEventListener('input', () => {
+            document.getElementById('lblConcurrent').textContent = `${elConc.value} / ${maxConcur}`;
+          });
+
+          loadMethods(data.permission);
+        } else {
+          window.location.href = '/login';
+        }
+      } catch (err) {
+        console.error('Failed API user info:', err);
+      }
+    }
+
+    async function loadMethods(permission) {
+      try {
+        const res = await fetch('/config/methods.json');
+        const allMethods = await res.json();
+
+        const allowed = allMethods; // Menampilkan semua untuk kemudahan testing UI
+
+        availableMethodsData = allowed.map(m => {
+          let layerTag = 'L7';
+          const desc = (m.desripsi || m.description || '').toLowerCase();
+
+          if (desc.includes('layer 4')) {
+            layerTag = 'L4';
+          } else if (desc.includes('layer 7')) {
+            layerTag = 'L7';
+          } else {
+            const lowerName = m.name.toLowerCase();
+            layerTag = (lowerName === 'tcppps' || lowerName === 'udpplain') ? 'L4' : 'L7';
+          }
+
+          const displayedTag = m.desripsi || m.description || (layerTag === 'L4' ? 'Layer 4' : 'Layer 7');
+          return { ...m, layerTag, displayedTag };
+        });
+
+        renderMethodsOptions();
+      } catch (err) {
+        console.error('Failed to load config methods', err);
+      }
+    }
+
+    // Attacks Table
+    async function fetchAttacks() {
+      try {
+        const res = await fetch('/api/attacks');
+        const data = await res.json();
+        if (data.success) {
+          renderTable(data.attacks);
+        }
+      } catch (err) { }
+    }
+
+    function renderTable(attacks) {
+      const tbody = document.getElementById('tableBody');
+      const searchTxt = (document.getElementById('inputSearch').value || '').toLowerCase();
+
+      if (attacks.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No results.</td></tr>';
+        return;
+      }
+
+      const filtered = attacks.filter(a => a.target.toLowerCase().includes(searchTxt));
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="table-empty">No results.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(a => {
+        const isRun = a.status === 'running';
+        const colorClass = isRun ? 'status-running' : 'status-stopped';
+        return `
+          <tr>
+            <td>${a.attack_id || '-'}</td>
+            <td>${a.target}</td>
+            <td>${a.port}</td>
+            <td>${a.method}</td>
+            <td>${a.time}s</td>
+            <td class="${colorClass}">${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</td>
+            <td>
+              ${isRun ? `<button class="net-btn" onclick="stopAttack('${a.attack_id}')" style="background:#ef4444; color:white; border:none; padding:4px 8px; font-size:10px;">Stop</button>` : '-'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('inputSearch').addEventListener('input', fetchAttacks);
+
+    // Submission logic
+    document.getElementById('attackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        target: document.getElementById('target').value,
+        port: document.getElementById('port').value,
+        time: parseInt(document.getElementById('time').value),
+        method: document.getElementById('method').value,
+        concurrent: parseInt(document.getElementById('concurrent')?.value || 1)
+      };
+
+      try {
+        const res = await fetch('/api/start-attack', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const dt = await res.json();
+        if (dt.success) {
+          showToast('Attack successfully', 'success');
+          fetchAttacks();
+        } else {
+          alert('Failed: ' + dt.message);
+        }
+      } catch (err) {
+        alert('Network Error');
+      }
+    });
+
+    async function stopAttack(attack_id) {
+      try {
+        const res = await fetch('/api/stop-attack', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attack_id })
+        });
+        const dt = await res.json();
+        if (dt.success) {
+          showToast('Attack stopped successfully', 'success');
+          fetchAttacks();
+        } else {
+          showToast('Failed to stop: ' + dt.message);
+        }
+      } catch (err) {
+        showToast('Network Error');
+      }
+    }
+
+    async function stopAll() {
+      const tbody = document.getElementById('tableBody');
+      const rows = tbody.querySelectorAll('tr');
+
+      let hasRunning = false;
+      rows.forEach(r => {
+        if (r.querySelector('.status-running')) hasRunning = true;
+      });
+
+      if (!hasRunning) {
+        showToast('There no running attacks.');
+        return;
+      }
+
+      // If there are running attacks, implement logic to stop them API side
+      alert('Stopping all attacks functionality connected!');
+    }
+
+    function logout() {
+      fetch('/api/logout', { method: 'POST' }).then(() => {
+        window.location.href = '/login';
+      });
+    }
+
+    // Dropdown Logic
+    document.getElementById('profileBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('profileDropdown').classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+      const dd = document.getElementById('profileDropdown');
+      if (dd && !dd.contains(e.target) && !document.getElementById('profileBtn').contains(e.target)) {
+        dd.classList.remove('show');
+      }
+    });
+
+    loadData();
+    fetchAttacks();
+    setInterval(fetchAttacks, 3000); // Polling for running status
+  </script>
+</body>
+
+</html>

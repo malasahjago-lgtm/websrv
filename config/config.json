@@ -1,0 +1,13 @@
+{
+  "mongodb": {
+    "uri": "mongodb://node62.lunes.host:3039/atlasstresser",
+    "options": {
+      "bufferCommands": true,
+      "serverSelectionTimeoutMS": 5000,
+      "socketTimeoutMS": 10000
+    }
+  },
+  "session": {
+    "secret_prefix": "atlasstresser_secret_"
+  }
+}
